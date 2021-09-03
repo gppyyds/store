@@ -257,6 +257,83 @@ def remoney():
             else:
                 print("账号不存在")
                 return 1
+
+def addzhuanru():
+    while 1:
+        accoutin=input("请输入转入的账号")
+        accoutout=input("请输入转出的账号")
+        accoutin=int(accoutin)
+        accoutout=int(accoutout)
+        if accoutout==accoutin:
+            print("转账失败")
+        else:
+            if accoutout in bank and accoutin in bank:
+                passwordout=input("请输入转出账号密码")
+                if passwordout==bank[passwordout]["password"]:
+                    moneyout=int(input("请输入转账金额"))
+                    bank[accoutout]["money"]=int(bank[accoutout]["money"])
+                    bank[accoutin]["money"]=int(bank[accoutin]["money"])
+                    if bank[accoutout]["money"]>=moneyout:
+                        bank[accoutout]["money"]=bank[accoutout]["money"]-moneyout
+                        bank[accoutin]["money"]=bank[accoutin]["money"]+moneyout
+
+                        print("输入账户余额")
+                        print(bank[accoutin]["money"])
+
+
+                        break
+                    else:
+                     return fanhui(3)
+                else:
+                    return fanhui(2)
+            else:
+                    return fanhui(1)
+
+#返回
+def fanhui(num):
+    if num==1:
+        print("账号不对")
+    elif num ==2:
+        print("您输入密码不对")
+    elif num==3:
+        print("money不够")
+    else:
+        print("")
+
+
+#查询
+def chaxun():
+    account=int(input("请输入账号"))
+    if account in bank:
+        password=int(input("请输入账号密码"))
+        if password==bank[account]["password"]:
+            info = '''
+                    ------------个人信息 - -----------
+                    用户名: %s
+                    账号： %s
+                    密码： ** ** *
+                    余额： %s
+                    开户行名称： %s
+                        '''
+            print(info%(account,
+               bank[account]["username"],
+               bank[account]["password"],
+               bank[account]["money"],
+               bank[account]["bank_name"]
+            ))
+        else:
+            print("密码错误")
+    else:
+        print("账号不存在")
+            
+
+def goodbye():
+    print("再见")
+
+
+
+
+
 while True:
     begin = input("请选择业务")
     if begin == "1":  # 您输入的业务等于1执行开户操作
@@ -266,11 +343,11 @@ while True:
     elif begin == "3":
         remoney()
     elif begin == "4":
-        print(4,"、转账")
+        addzhuanru()
     elif begin == "5":
-        begin()
+        chaxun()
     else:
-        print(6, "、退出")
+        goodbye()
         break
 
 
